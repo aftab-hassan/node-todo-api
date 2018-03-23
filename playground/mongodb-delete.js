@@ -1,49 +1,34 @@
-const {MongoClient, ObjectID} = require('mongodb')
+// const MongoClient = require('mongodb').MongoClient;
+const {MongoClient, ObjectID} = require('mongodb');
 
-MongoClient.connect('mongodb://localhost:27017/TodoAppDb', (err, client) => {
-    if(err)
-    {
-        return console.log('Unable to connect to db server')
-    }
-    console.log('Connected to mongo db server')
+MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
+  if (err) {
+    return console.log('Unable to connect to MongoDB server');
+  }
+  console.log('Connected to MongoDB server');
 
-    const db = client.db('TodoAppDb');
+  // deleteMany
+  // db.collection('Todos').deleteMany({text: 'Eat lunch'}).then((result) => {
+  //   console.log(result);
+  // });
 
-    //delete many
-    // db.collection('Todos').deleteMany({goal:'delete this goal'}).then( (result) => {
-    //     console.log(result);
-    // })
+  // deleteOne
+  // db.collection('Todos').deleteOne({text: 'Eat lunch'}).then((result) => {
+  //   console.log(result);
+  // });
 
-    //delete one
-    // db.collection('Todos').deleteOne({goal:'delete this goal'}).then( (result) => {
-    //     console.log(result);
-    // })
+  // findOneAndDelete
+  // db.collection('Todos').findOneAndDelete({completed: false}).then((result) => {
+  //   console.log(result);
+  // });
 
-    //find one and delete
-    //gets the document back as well as delete it
-    /*
-    Output looks like
-    { lastErrorObject: { n: 1 },
-  value:
-   { _id: 5aaf5592b7c946203dd95467,
-     goal: 'Workout',
-     completed: false },
-  ok: 1 }
-     */
-    // So basically, you could display back to the user saying that this was deleted
-    // db.collection('Todos').findOneAndDelete({completed:false}).then( (result) => {
-    //     console.log(result);
-    // })
+  // db.collection('Users').deleteMany({name: 'Andrew'});
 
-    // Challenge 1
-    db.collection('Users').deleteMany({name:'Andrew'}).then( (result) => {
-        console.log(result);
-    })
+  db.collection('Users').findOneAndDelete({
+    _id: new ObjectID("57ac8d47878a299e5dc21bc8")
+  }).then((results) => {
+    console.log(JSON.stringify(results, undefined, 2));
+  });
 
-    // Challenge 2
-    db.collection('Users').findOneAndDelete({_id : new ObjectId("5aaf5578b7c946203dd95464")}).then( (result) => {
-        console.log(result);
-    })
-
-    client.close();
-})
+  // db.close();
+});

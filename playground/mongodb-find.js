@@ -1,55 +1,30 @@
-const {MongoClient, ObjectID} = require('mongodb')
+// const MongoClient = require('mongodb').MongoClient;
+const {MongoClient, ObjectID} = require('mongodb');
 
-MongoClient.connect('mongodb://localhost:27017/TodoAppDb', (err, client) => {
-    if(err)
-    {
-        return console.log('Unable to connect to db server')
-    }
-    console.log('Connected to mongo db server')
+MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
+  if (err) {
+    return console.log('Unable to connect to MongoDB server');
+  }
+  console.log('Connected to MongoDB server');
 
-    const db = client.db('TodoAppDb');
+  // db.collection('Todos').find({
+  //   _id: new ObjectID('57bb36afb3b6a3801d8c479d')
+  // }).toArray().then((docs) => {
+  //   console.log('Todos');
+  //   console.log(JSON.stringify(docs, undefined, 2));
+  // }, (err) => {
+  //   console.log('Unable to fetch todos', err);
+  // });
 
-    // All goals
-    //toArray returns a promise : other cursors http://mongodb.github.io/node-mongodb-native/3.0/api/Cursor.html
-    //Examples here : http://mongodb.github.io/node-mongodb-native/2.2/api/Cursor.html#count
-    db.collection('Todos').find().toArray().then((goals) => {
-        console.log('Goals')
-        console.log(JSON.stringify(goals, undefined, 2));
-    }, (err) => {
-        console.log('Unable to find Todos', err)
-    })
+  // db.collection('Todos').find().count().then((count) => {
+  //   console.log(`Todos count: ${count}`);
+  // }, (err) => {
+  //   console.log('Unable to fetch todos', err);
+  // });
 
-    // Goals that are completed
-    db.collection('Todos').find({completed:true}).toArray().then((goals) => {
-        console.log('Goals that are completed')
-        console.log(JSON.stringify(goals, undefined, 2));
-    }, (err) => {
-        console.log('Unable to find Todos', err)
-    })
+  db.collection('Users').find({name: 'Andrew'}).toArray().then((docs) => {
+    console.log(JSON.stringify(docs, undefined, 2));
+  });
 
-    // Goals of a specific id
-    db.collection('Todos').find({_id : new ObjectID('5aaf5578b7c946203dd95464')}).toArray().then((goals) => {
-        console.log('Goals of a specific id')
-        console.log(JSON.stringify(goals, undefined, 2));
-    }, (err) => {
-        console.log('Unable to find Todos', err)
-    })
-
-    // Count
-    db.collection('Todos').find({_id : new ObjectID('5aaf5578b7c946203dd95464')}).count().then((count) => {
-        console.log('Count goals of a specific id')
-        console.log(`count == ${count}`);
-    }, (err) => {
-        console.log('Unable to find Todos', err)
-    })
-
-    // Count from the Users table
-    db.collection('Users').find({name : 'Aftab'}).count().then((count) => {
-        console.log('Count goals of a specific name')
-        console.log(`count == ${count}`);
-    }, (err) => {
-        console.log('Unable to find Todos', err)
-    })
-
-    client.close();
-})
+  // db.close();
+});
